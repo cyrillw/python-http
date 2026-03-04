@@ -5,6 +5,7 @@ import argparse
 from .cookies import list_cookies
 from .http_actions import perform_get, perform_post
 from .scraping import scrape_tag_text
+from .screenshot import take_screenshot
 
 DEFAULT_URL = "https://httpbin.org"
 
@@ -58,6 +59,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write response output to a file instead of printing to console",
     )
 
+    parser.add_argument(
+        "--screenshot",
+        default="screenshot.png",
+        help="Screenshot file path for the 'screenshot' command (default: screenshot.png)",
+    )
+
     return parser
 
 
@@ -99,6 +106,11 @@ def main() -> int:
 
         if cmd == "list-cookies":
             text = list_cookies(args.url)
+            handle_output(text, args.output)
+            return 0
+
+        if cmd == "screenshot":
+            text = take_screenshot(args.url, args.screenshot)
             handle_output(text, args.output)
             return 0
 

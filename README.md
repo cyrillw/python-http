@@ -130,3 +130,19 @@ python myproject.py body --output result.txt
 ```
 
 Die Antwort der Webseite wird dann in result.txt gespeichert.
+
+## Zusatzfeatures
+
+Neben den Minimalanforderungen wurden folgende zusätzliche Funktionen implementiert:
+
+- **Errorhandling**
+  - Fehlermeldung bei ungültigen URLs
+  - Meldung wenn bei `post` kein `<form>` Element gefunden wird
+  - Warnung wenn einzelne Formularfelder nicht existieren
+  - Vermeidung von Python Stacktraces für den Benutzer
+- **Output Speicherung**
+  - mit dem Parameter `--output` kann die Antwort eines Kommandos in eine Datei gespeichert werden
+  - Funktioniert für alle Kommandos (`html-tag`, `get`, `post`, `list-cookies`, `screenshot`)
+- **Screenshot Funktion**
+  - Mit dem `screenshot` Kommando kann ein Screenshot einer Webseite erstellt werden
+  - Optionaler Parameter `--screenshot` zum Festlegen des Dateinamens

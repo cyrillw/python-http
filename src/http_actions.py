@@ -7,10 +7,10 @@ from selenium.common.exceptions import NoSuchElementException, WebDriverExceptio
 from .browser import chrome_driver
 
 
-def perform_get(url: str, params: Dict[str, str]) -> int:
+def perform_get(url: str, params: Dict[str, str]) -> str:
     """
     Perform a GET request with optional query parameters.
-    Returns a process-like exit code (0 = success, non-zero = error).
+    Returns the page body text.
     """
     try:
         query = urlencode(params)
@@ -19,18 +19,15 @@ def perform_get(url: str, params: Dict[str, str]) -> int:
         with chrome_driver(headless=True) as driver:
             driver.get(final_url)
             body = driver.find_element(By.TAG_NAME, "body")
-            print(body.text)
-        return 0
+            return body.text
 
     except NoSuchElementException:
-        print("Error: page loaded, but <body> element was not found.")
-        return 11
+        raise RuntimeError("Page loaded, but <body> element was not found.")
     except WebDriverException as e:
-        print(f"Error: failed to open URL '{url}'. Details: {e.__class__.__name__}")
-        return 10
+        raise RuntimeError(f"Failed to open URL '{url}'. ({e.__class__.__name__})")
 
 
-def perform_post(url: str, data: Dict[str, str]) -> int:
+def perform_post(url: str, data: Dict[str, str]) -> str:
     """
     Perform a POST-like action by submitting a form using Selenium.
 
@@ -42,17 +39,16 @@ def perform_post(url: str, data: Dict[str, str]) -> int:
         with chrome_driver(headless=True) as driver:
             driver.get(url)
 
-            # 1) Ensure there is a form
+            # Ensure there is a form
             try:
                 form = driver.find_element(By.CSS_SELECTOR, "form")
             except NoSuchElementException:
-                print(
-                    "Error: no <form> element found on the page. "
+                raise RuntimeError(
+                    "No <form> element found on the page. "
                     "POST in this project works via HTML form submission (Selenium)."
                 )
-                return 20
 
-            # 2) Try to fill fields
+            # Fill form fields
             missing_fields = []
             for key, value in data.items():
                 try:
@@ -66,16 +62,13 @@ def perform_post(url: str, data: Dict[str, str]) -> int:
                     + ", ".join(missing_fields)
                 )
 
-            # 3) Submit the form
+            # Submit form
             form.submit()
 
             body = driver.find_element(By.TAG_NAME, "body")
-            print(body.text)
-            return 0
+            return body.text
 
     except WebDriverException as e:
-        print(f"Error: failed to open URL '{url}' or submit the form. Details: {e.__class__.__name__}")
-        return 21
+        raise RuntimeError(f"Failed to open URL '{url}' or submit form. ({e.__class__.__name__})")
     except NoSuchElementException:
-        print("Error: page loaded, but expected elements were not found.")
-        return 22
+        raise RuntimeError("Page loaded, but expected elements were not found.")

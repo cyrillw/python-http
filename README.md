@@ -129,7 +129,7 @@ Der Parameter `--output` kann mit allen Kommandos verwendet werden, um die Ausga
 python myproject.py body --output result.txt
 ```
 
-Die Antwort der Webseite wird dann in result.txt gespeichert.
+Die Antwort der Webseite wird dann in `result.txt` gespeichert.
 
 ## Zusatzfeatures
 

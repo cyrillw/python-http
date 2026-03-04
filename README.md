@@ -121,7 +121,7 @@ python myproject.py screenshot --url https://example.com --screenshot example.pn
 ```
 
 ### Beispiel für `--output` param
-Der Parameter --output kann mit allen Kommandos verwendet werden, um die Ausgabe in eine Datei zu schreiben.
+Der Parameter `--output` kann mit allen Kommandos verwendet werden, um die Ausgabe in eine Datei zu schreiben.
 
 **Beispiel**
 

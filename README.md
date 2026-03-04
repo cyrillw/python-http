@@ -76,7 +76,7 @@ python myproject.py get --url https://httpbin.org/get --param user=test
 Das post Kommando führt eine Form Submission über Selenium aus.
 Dabei werden Formularfelder mit --data gefüllt und das Formular abgeschickt.
 
-Hinweis: Diese Funktion funktioniert nur auf Seiten, die ein HTML <form> enthalten.
+Hinweis: Diese Funktion funktioniert nur auf Seiten, die ein HTML `<form>` enthalten.
 
 **Beispiel**
 

@@ -35,7 +35,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     parser.add_argument(
         "command",
-        help="Command: <html-tag> OR get OR post OR list-cookies",
+        help="Command: <html-tag> OR get OR post OR list-cookies OR screenshot",
     )
     parser.add_argument(
         "--url",

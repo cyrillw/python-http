@@ -1,35 +1,33 @@
+from urllib.parse import urlencode
 from selenium.webdriver.common.by import By
 from .browser import chrome_driver
 
 
-def perform_get(base_url: str) -> None:
+def perform_get(url: str, params: dict) -> None:
     """
-    Perform a GET request with query parameters using Selenium.
-    Example: https://httpbin.org/get?name=John&role=Student
+    Perform a GET request with query parameters.
     """
-    url = f"{base_url}/get?name=John&role=Student"
+
+    query = urlencode(params)
+    final_url = f"{url}?{query}" if query else url
 
     with chrome_driver(headless=True) as driver:
-        driver.get(url)
+        driver.get(final_url)
 
         body = driver.find_element(By.TAG_NAME, "body")
         print(body.text)
 
-def perform_post(base_url: str) -> None:
+def perform_post(url: str, data: dict) -> None:
     """
-    Perform a POST request using a simple HTML form submission.
+    Submit a form on the given page.
     """
-    url = f"{base_url}/forms/post"
 
     with chrome_driver(headless=True) as driver:
         driver.get(url)
 
-        # Fill form fields
-        driver.find_element(By.NAME, "custname").send_keys("John Doe")
-        driver.find_element(By.NAME, "custtel").send_keys("123456")
-        driver.find_element(By.NAME, "custemail").send_keys("john@example.com")
+        for key, value in data.items():
+            driver.find_element(By.NAME, key).send_keys(value)
 
-        # Submit form
         driver.find_element(By.CSS_SELECTOR, "form").submit()
 
         body = driver.find_element(By.TAG_NAME, "body")
